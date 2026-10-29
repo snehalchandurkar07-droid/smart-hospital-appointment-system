@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Book Appointment{% endblock %}
+{% block content %}
+<div class="form-wrap"><div class="form-card wide">
+  <p class="eyebrow">BOOK A VISIT</p><h1>Appointment request</h1>
+  <div class="doctor-summary"><div class="doctor-icon">✚</div><div><h3>{{ doctor.name }}</h3><p>{{ doctor.specialization }} · Consultation fee ₹{{ doctor.fee }}</p><p class="muted">Available {{ doctor.available_days }}, {{ doctor.start_time }}–{{ doctor.end_time }}</p></div></div>
+  <form method="post">
+    <label>Appointment date</label><input type="date" name="appointment_date" min="{{ today }}" required>
+    <label>Appointment time</label><input type="time" name="appointment_time" min="{{ doctor.start_time }}" max="{{ doctor.end_time }}" step="1800" required>
+    <label>Reason for visit</label><textarea name="reason" rows="3" required maxlength="500" placeholder="Briefly describe the reason for your visit"></textarea>
+    <button class="button full" type="submit">Confirm Booking Request</button>
+  </form>
+  <p class="muted tiny">Booking is subject to slot availability and hospital confirmation.</p>
+</div></div>
+{% endblock %}

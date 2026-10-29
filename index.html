@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}SmartCare | Home{% endblock %}
+{% block content %}
+<section class="hero">
+  <div>
+    <p class="eyebrow">CARE MADE SIMPLE</p>
+    <h1>Your health.<br><span>Your time.</span></h1>
+    <p class="hero-text">Find a doctor and book a hospital appointment online in a few simple steps.</p>
+    {% if not session.get('patient_id') %}
+      <a class="button" href="{{ url_for('register') }}">Get Started</a>
+      <a class="button secondary" href="{{ url_for('login') }}">Patient Login</a>
+    {% else %}
+      <a class="button" href="{{ url_for('dashboard') }}">View My Appointments</a>
+    {% endif %}
+  </div>
+  <div class="hero-art"><div class="cross">✚</div><div class="art-card"><strong>SmartCare</strong><br>Appointments made easier<br><span>✓ Patient-friendly booking</span></div></div>
+</section>
+<section class="section-heading">
+  <p class="eyebrow">OUR SPECIALISTS</p>
+  <h2>Meet our doctors</h2>
+  <p>Choose a specialist and select an available appointment slot.</p>
+</section>
+<div class="doctor-grid">
+  {% for doctor in doctors %}
+  <article class="doctor-card">
+    <div class="doctor-icon">✚</div>
+    <p class="specialty">{{ doctor.specialization }}</p>
+    <h3>{{ doctor.name }}</h3>
+    <p class="muted">Available: {{ doctor.available_days }}</p>
+    <p class="muted">Hours: {{ doctor.start_time }} – {{ doctor.end_time }}</p>
+    <div class="card-bottom"><strong>₹{{ doctor.fee }}</strong>
+      {% if session.get('patient_id') %}
+        <a class="button small" href="{{ url_for('book', doctor_id=doctor.id) }}">Book</a>
+      {% else %}
+        <a class="button small" href="{{ url_for('login') }}">Book</a>
+      {% endif %}
+    </div>
+  </article>
+  {% endfor %}
+</div>
+<div class="notice"><strong>Note:</strong> This is an academic demonstration project. It does not provide medical advice or real hospital services.</div>
+{% endblock %}

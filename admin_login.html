@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Admin Login{% endblock %}
+{% block content %}
+<div class="form-wrap"><div class="form-card">
+  <p class="eyebrow">STAFF ACCESS</p><h1>Admin login</h1><p class="muted">Manage appointment requests.</p>
+  <form method="post">
+    <label>Username</label><input name="username" required>
+    <label>Password</label><input name="password" type="password" required>
+    <button class="button full" type="submit">Login as Admin</button>
+  </form>
+  <div class="demo-credentials"><strong>Demo credentials</strong><br>Username: <code>admin</code><br>Password: <code>admin123</code></div>
+</div></div>
+{% endblock %}

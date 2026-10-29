@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}My Appointments{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">PATIENT PORTAL</p><h1>My appointments</h1><p class="muted">View your upcoming and previous appointment requests.</p></div><a class="button" href="{{ url_for('index') }}">Find a Doctor</a></div>
+{% if appointments %}
+<div class="table-wrap"><table><thead><tr><th>Doctor</th><th>Specialization</th><th>Date</th><th>Time</th><th>Reason</th><th>Status</th><th>Action</th></tr></thead><tbody>
+{% for a in appointments %}
+<tr><td>{{ a.doctor_name }}</td><td>{{ a.specialization }}</td><td>{{ a.appointment_date }}</td><td>{{ a.appointment_time }}</td><td>{{ a.reason }}</td><td><span class="status {{ a.status|lower }}">{{ a.status }}</span></td><td>
+{% if a.status in ['Pending','Confirmed'] and a.appointment_date >= today %}
+<form method="post" action="{{ url_for('cancel', appointment_id=a.id) }}" onsubmit="return confirm('Cancel this appointment?')"><button class="text-button" type="submit">Cancel</button></form>
+{% else %}<span class="muted">—</span>{% endif %}
+</td></tr>
+{% endfor %}
+</tbody></table></div>
+{% else %}
+<div class="empty"><div class="doctor-icon">▦</div><h2>No appointments yet</h2><p class="muted">Browse our doctors and book your first appointment.</p><a class="button" href="{{ url_for('index') }}">Browse Doctors</a></div>
+{% endif %}
+{% endblock %}

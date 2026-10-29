@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">ADMINISTRATION</p><h1>Admin dashboard</h1><p class="muted">Review and update patient appointment requests.</p></div></div>
+<div class="stats">
+  <div class="stat"><span>Patients</span><strong>{{ stats.patients }}</strong></div>
+  <div class="stat"><span>Doctors</span><strong>{{ stats.doctors }}</strong></div>
+  <div class="stat"><span>Total appointments</span><strong>{{ stats.appointments }}</strong></div>
+  <div class="stat"><span>Pending</span><strong>{{ stats.pending }}</strong></div>
+</div>
+<h2 class="subheading">All appointment requests</h2>
+{% if appointments %}
+<div class="table-wrap"><table><thead><tr><th>Patient</th><th>Contact</th><th>Doctor</th><th>Date</th><th>Time</th><th>Reason</th><th>Status</th><th>Update status</th></tr></thead><tbody>
+{% for a in appointments %}
+<tr><td>{{ a.patient_name }}</td><td>{{ a.phone }}<br><span class="muted">{{ a.email }}</span></td><td>{{ a.doctor_name }}<br><span class="muted">{{ a.specialization }}</span></td><td>{{ a.appointment_date }}</td><td>{{ a.appointment_time }}</td><td>{{ a.reason }}</td><td><span class="status {{ a.status|lower }}">{{ a.status }}</span></td><td>
+<form class="status-form" method="post" action="{{ url_for('update_status', appointment_id=a.id) }}"><select name="status" aria-label="Appointment status">{% for s in ['Pending','Confirmed','Cancelled','Completed'] %}<option value="{{ s }}" {% if s == a.status %}selected{% endif %}>{{ s }}</option>{% endfor %}</select><button class="button small" type="submit">Save</button></form>
+</td></tr>
+{% endfor %}
+</tbody></table></div>
+{% else %}<div class="empty"><h2>No appointment requests</h2><p class="muted">New bookings will appear here.</p></div>{% endif %}
+{% endblock %}

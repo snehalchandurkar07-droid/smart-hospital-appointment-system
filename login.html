@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Patient Login{% endblock %}
+{% block content %}
+<div class="form-wrap"><div class="form-card">
+  <p class="eyebrow">WELCOME BACK</p><h1>Patient login</h1><p class="muted">Sign in to manage your appointments.</p>
+  <form method="post">
+    <label>Email address</label><input name="email" type="email" required placeholder="you@example.com">
+    <label>Password</label><input name="password" type="password" required placeholder="Your password">
+    <button class="button full" type="submit">Login</button>
+  </form>
+  <p class="form-foot">New here? <a href="{{ url_for('register') }}">Create an account</a></p>
+</div></div>
+{% endblock %}

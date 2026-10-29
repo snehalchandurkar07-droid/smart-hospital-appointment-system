@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Smart Hospital{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<nav class="navbar">
+  <a class="brand" href="{{ url_for('index') }}">✚ SmartCare</a>
+  <div class="navlinks">
+    <a href="{{ url_for('index') }}">Home</a>
+    {% if session.get('patient_id') %}
+      <a href="{{ url_for('dashboard') }}">My Appointments</a>
+      <span class="welcome">Hi, {{ session.get('patient_name') }}</span>
+      <a class="navbutton" href="{{ url_for('logout') }}">Logout</a>
+    {% elif session.get('is_admin') %}
+      <a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a>
+      <a class="navbutton" href="{{ url_for('admin_logout') }}">Logout</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Patient Login</a>
+      <a class="navbutton" href="{{ url_for('register') }}">Register</a>
+      <a href="{{ url_for('admin_login') }}">Admin</a>
+    {% endif %}
+  </div>
+</nav>
+<main class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert {{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+<footer>SmartCare Hospital Appointment System · Student PBL Project</footer>
+</body>
+</html>
